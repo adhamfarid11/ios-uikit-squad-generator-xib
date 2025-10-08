@@ -1,0 +1,25 @@
+load("@rules_apple//apple:ios.bzl", "ios_application")
+load("@rules_swift//swift:swift.bzl", "swift_library")
+
+swift_library(
+    name = "lib",
+    srcs = glob([
+        "Modules/NameGenerator/*.swift",
+        "Modules/Timer/*.swift"
+        ]),
+    visibility = ["//visibility:private"]
+)
+
+ios_application (
+    name = "App",
+    deps = [":lib"],
+    bundle_id = "com.squad-generator.programmatically",
+    families = [
+        "iphone",
+        "ipad",
+    ],
+    infoplists = [":Info.plist"],
+    resources = glob(["Assets.xcassets/**"]),
+    minimum_os_version = "14.0",
+    visibility = ["//visibility:public"]
+)

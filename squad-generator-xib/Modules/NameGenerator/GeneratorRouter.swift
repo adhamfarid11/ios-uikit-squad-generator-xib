@@ -32,7 +32,9 @@ enum GeneratorModule {
 
         let interactor = GeneratorInteractor(data: data, predefinedProbability: 10)
         let router = GeneratorRouter()
-        let view = ViewController()
+//        let storyboard = UIStoryboard(name: "Main", bundle: nil) // Or your Storyboard name
+//        let view = storyboard.instantiateViewController(withIdentifier: "ViewControllerIdentifier") as! ViewController
+        let view = ViewController(nibName: "Main", bundle: nil) // Or your XIB file name
         let presenter = GeneratorPresenter(view: view, interactor: interactor, router: router)
         view.presenter = presenter       
         return view
