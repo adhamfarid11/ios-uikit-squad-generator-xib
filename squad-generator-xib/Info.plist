@@ -18,8 +18,10 @@
 				<dict>
 					<key>UISceneConfigurationName</key>
 					<string>Default Configuration</string>
+					<!-- <key>NSMainNibFile</key>
+					<string>Main</string> -->
 					<key>UISceneDelegateClassName</key>
-                    <string>$(PRODUCT_MODULE_NAME).SceneDelegate</string>
+                    <string>SquadGeneratorXIB.SceneDelegate</string>
 				</dict>
 			</array>
 		</dict>

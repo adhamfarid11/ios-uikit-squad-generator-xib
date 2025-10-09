@@ -1,21 +1,33 @@
 load("@rules_apple//apple:ios.bzl", "ios_application")
 load("@rules_swift//swift:swift.bzl", "swift_library")
+# load("@rules_cc//cc:objc_library.bzl", "objc_library")
 
 swift_library(
     name = "lib",
-    module_name = "App",
+    module_name = "SquadGeneratorXIB",
     srcs = glob([
         "*.swift",
         "Modules/NameGenerator/*.swift",
         "Modules/Timer/*.swift"
         ]),
     visibility = ["//visibility:private"],
-    data = ["Modules/NameGenerator/Main.xib"]
+    data = [
+        "Modules/NameGenerator/Main.xib", 
+        "Base.lproj"
+    ],
 )
+
+# objc_library(
+#     name = "objc_lib",
+#     data = [
+#         "Modules/NameGenerator/Main.xib", 
+#     ]
+# )
 
 ios_application (
     name = "App",
     deps = [":lib"],
+    # deps = [":lib", ":objc_lib"],
     bundle_id = "com.letstrysomethingnew.squad-generator-xib",
     families = [
         "iphone",
