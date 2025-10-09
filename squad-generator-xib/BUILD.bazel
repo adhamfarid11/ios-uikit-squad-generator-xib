@@ -3,23 +3,33 @@ load("@rules_swift//swift:swift.bzl", "swift_library")
 
 swift_library(
     name = "lib",
+    module_name = "App",
     srcs = glob([
+        "*.swift",
         "Modules/NameGenerator/*.swift",
         "Modules/Timer/*.swift"
         ]),
-    visibility = ["//visibility:private"]
+    visibility = ["//visibility:private"],
+    data = ["Modules/NameGenerator/Main.xib"]
 )
 
 ios_application (
     name = "App",
     deps = [":lib"],
-    bundle_id = "com.squad-generator.programmatically",
+    bundle_id = "com.letstrysomethingnew.squad-generator-xib",
     families = [
         "iphone",
         "ipad",
     ],
-    infoplists = [":Info.plist"],
-    resources = glob(["Assets.xcassets/**"]),
+    infoplists = ["Info.plist"],
+    resources = glob([
+        "Assets.xcassets/**",
+    ]),
+    #  resources = glob([
+    #     "Assets.xcassets/**",
+    # ]) + [
+    #     "Modules/NameGenerator/Main.xib",
+    # ],
     minimum_os_version = "14.0",
     visibility = ["//visibility:public"]
 )

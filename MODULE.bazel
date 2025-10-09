@@ -1,5 +1,5 @@
-module(name = "bazelbuild", version = "")
+module(name = "squad_generator_xib", version = "")
 
-bazel_dep(name = "apple_support", version = "1.22.1")
+bazel_dep(name = "apple_support", version = "1.23.1")
 bazel_dep(name = "rules_apple", version = "4.0.1")
 bazel_dep(name = "rules_swift", version = "3.1.1", repo_name = "rules_swift")

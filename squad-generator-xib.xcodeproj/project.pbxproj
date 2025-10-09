@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXFileReference section */
+		563640612E9661A200A72C53 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		563640632E9661AC00A72C53 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		56E52CD62E950DCA009F0996 /* squad-generator-xib.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "squad-generator-xib.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -42,10 +44,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		563640602E9661A100A72C53 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				563640632E9661AC00A72C53 /* Foundation.framework */,
+				563640612E9661A200A72C53 /* UIKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		56E52CCD2E950DCA009F0996 = {
 			isa = PBXGroup;
 			children = (
 				56E52CD82E950DCA009F0996 /* squad-generator-xib */,
+				563640602E9661A100A72C53 /* Frameworks */,
 				56E52CD72E950DCA009F0996 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -148,6 +160,7 @@
 				DEVELOPMENT_TEAM = CU98C9NV2C;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "squad-generator-xib/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Squad XIB";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -179,6 +192,7 @@
 				DEVELOPMENT_TEAM = CU98C9NV2C;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "squad-generator-xib/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Squad XIB";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
