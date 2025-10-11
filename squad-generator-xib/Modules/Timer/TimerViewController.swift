@@ -8,21 +8,16 @@
 import UIKit
 
 final class TimerViewController: UIViewController {
-    private let label = UILabel()
+
     private var endDate: Date?
     private var timer: Timer?
-
+    
+    @IBOutlet weak var timerLabel: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        label.font = .monospacedDigitSystemFont(ofSize: 48, weight: .bold)
-        label.textAlignment = .center
-        label.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(label)
-        NSLayoutConstraint.activate([
-            label.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            label.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-        ])
+        timerLabel.text = "00:00"
 
         startCountdown(seconds: 90)
     }
@@ -41,7 +36,7 @@ final class TimerViewController: UIViewController {
     private func updateLabel() {
         guard let end = endDate else { return }
         let r = max(0, end.timeIntervalSinceNow)
-        label.text = format(r)
+        timerLabel.text = format(r)
         if r == 0 { timer?.invalidate() }
     }
 
