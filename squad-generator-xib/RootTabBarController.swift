@@ -8,22 +8,27 @@
 import UIKit
 
 final class RootTabBarController: UITabBarController {
+    @IBOutlet weak var item1: UIViewController!
+    @IBOutlet weak var item2: UIViewController!
+    
+    @IBOutlet weak var item1Child: UITabBarItem!
+    @IBOutlet weak var item2Child: UITabBarItem!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        // Create your two main controllers
         let home = UINavigationController(rootViewController: GeneratorModule.build())
-        home.tabBarItem = UITabBarItem(title: "Squad",
-                                       image: UIImage(systemName: "bolt"),
-                                       selectedImage: UIImage(systemName: "bolt.fill"))
-
         let timer = UINavigationController(rootViewController: TimerViewController())
-        timer.tabBarItem = UITabBarItem(title: "Timer",
-                                         image: UIImage(systemName: "timer"),
-                                         selectedImage: nil)
 
+        // Assign them to your outlets
+        home.tabBarItem = item1Child
+        timer.tabBarItem = item2Child
+
+        // Set them as the tab bar's view controllers
         viewControllers = [home, timer]
 
-        // (Optional) iOS 15+ appearance
+        // Optional: modern iOS tab bar appearance
         let appearance = UITabBarAppearance()
         appearance.configureWithDefaultBackground()
         tabBar.standardAppearance = appearance

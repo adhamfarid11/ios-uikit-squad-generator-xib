@@ -10,7 +10,11 @@ swift_library(
         "Modules/Timer/*.swift"
         ]),
     visibility = ["//visibility:private"],
-    data = ["Modules/NameGenerator/Main.xib"]
+    data = [
+        "Modules/NameGenerator/Main.xib",
+        "Modules/Timer/TimerViewController.xib",
+        "RootTabBar.xib",
+    ]
 )
 
 ios_application (
@@ -25,11 +29,6 @@ ios_application (
     resources = glob([
         "Assets.xcassets/**",
     ]),
-    #  resources = glob([
-    #     "Assets.xcassets/**",
-    # ]) + [
-    #     "Modules/NameGenerator/Main.xib",
-    # ],
     minimum_os_version = "14.0",
     visibility = ["//visibility:public"]
 )
