@@ -7,28 +7,37 @@
 
 import UIKit
 
+// NOTE: TimerViewController would need to be in a shared framework or built directly into
+// the main app target if it's referenced here, or conditionally imported/stubbed.
+
 final class RootTabBarController: UITabBarController {
-    @IBOutlet weak var item1: UIViewController!
-    @IBOutlet weak var item2: UIViewController!
     
-    @IBOutlet weak var item1Child: UITabBarItem!
-    @IBOutlet weak var item2Child: UITabBarItem!
+    // Use an array to store items since the number is now conditional
+    // @IBOutlet properties for UIViewController are usually not needed in this setup
+    
+    @IBOutlet weak var item1Child: UITabBarItem! // Item for Generator
+    @IBOutlet weak var item2Child: UITabBarItem! // Item for Timer (Conditional)
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Create your two main controllers
+        var controllers: [UIViewController] = []
+        
+        // #if GENERATOR_FEATURE_ON
         let home = UINavigationController(rootViewController: GeneratorModule.build())
-        let timer = UINavigationController(rootViewController: TimerViewController())
-
-        // Assign them to your outlets
         home.tabBarItem = item1Child
+        controllers.append(home)
+        // #endif
+        
+        
+        #if TIMER_FEATURE_ON
+        let timer = UINavigationController(rootViewController: TimerViewController())
         timer.tabBarItem = item2Child
+        controllers.append(timer)
+        #endif
 
-        // Set them as the tab bar's view controllers
-        viewControllers = [home, timer]
+        viewControllers = controllers
 
-        // Optional: modern iOS tab bar appearance
         let appearance = UITabBarAppearance()
         appearance.configureWithDefaultBackground()
         tabBar.standardAppearance = appearance

@@ -1,11 +1,12 @@
 load("@rules_apple//apple:ios.bzl", "ios_application")
 load("@rules_swift//swift:swift.bzl", "swift_library")
 
+# these are only the static file
 filegroup(
     name = "shared_resources",
     srcs = glob([
         "Assets.xcassets/**",
-        "RootTabBar.xib",
+        "RootTabBar.xib"
     ]),
     visibility = ["//visibility:public"]
 )
@@ -16,32 +17,24 @@ filegroup(
     visibility = ["//visibility:public"],
 )
 
-# it run in same module
-swift_library(
-    name = "lib",
-    module_name = "App",
-    srcs = glob([
-        "*.swift"
-        ]),
-    visibility = ["//visibility:private"],
-   data = [
-        "//squad-generator-xib/Modules/NameGenerator:Main.xib",
-        "//squad-generator-xib/Modules/Timer:TimerViewController.xib"
-    ]
-)
-
-ios_application (
-    name = "App_Timer",
-    deps = [
-        ":lib",
-        ":shared_resources"
-        ],
-    bundle_id = "com.letstrysomethingnew.squad-generator-xib",
-    families = [
-        "iphone"
+# this will compile codes
+# swift_library( 
+filegroup( 
+    name = "app_core_library",
+    srcs = [
+        "AppDelegate.swift",
+        "SceneDelegate.swift",
+        "RootTabBarController.swift",
     ],
-    infoplists = ["Bazel-Info.plist"],
-    minimum_os_version = "14.0",
-    visibility = ["//visibility:public"]
+    visibility = ["//visibility:public"],
 )
 
+config_setting(
+    name = "timer_on",
+    define_values = {"timer_feature": "on"},
+)
+
+config_setting(
+    name = "generator_on",
+    define_values = {"generator_feature": "on"},
+)
