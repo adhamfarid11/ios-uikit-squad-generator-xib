@@ -23,7 +23,7 @@
 					<key>NSMainNibFile</key>
 					<string>RootTabBar</string>
 					<key>UISceneDelegateClassName</key>
-					<string>$(PRODUCT_MODULE_NAME).SceneDelegate</string>
+					<string>$(PRODUCT_NAME).SceneDelegate</string>
 				</dict>
 			</array>
 		</dict>

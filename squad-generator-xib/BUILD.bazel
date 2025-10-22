@@ -25,7 +25,7 @@ ios_application (
         "iphone",
         "ipad",
     ],
-    infoplists = ["Info.plist"],
+    infoplists = ["Bazel-Info.plist"],
    resources = glob([
     "Assets.xcassets/**",
     "**/*.xib",
