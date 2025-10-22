@@ -23,11 +23,11 @@ final class RootTabBarController: UITabBarController {
 
         var controllers: [UIViewController] = []
         
-        // #if GENERATOR_FEATURE_ON
+        #if GENERATOR_FEATURE_ON
         let home = UINavigationController(rootViewController: GeneratorModule.build())
         home.tabBarItem = item1Child
         controllers.append(home)
-        // #endif
+        #endif
         
         
         #if TIMER_FEATURE_ON
