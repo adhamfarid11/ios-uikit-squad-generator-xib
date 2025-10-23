@@ -18,7 +18,6 @@ filegroup(
 )
 
 # this will compile codes
-# swift_library( 
 filegroup( 
     name = "app_core_library",
     srcs = [

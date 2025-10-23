@@ -4,18 +4,12 @@ load("@rules_swift//swift:swift.bzl", "swift_library")
 
 # should be in base file
 config_setting(
-    name = "timer_on",
-    define_values = {"timer_feature": "on"},
-)
-
-config_setting(
     name = "generator_on",
     define_values = {"generator_feature": "on"},
 )
 
 
 FEATURE_COPTS = select({
-    ":timer_on": ["-DTIMER_FEATURE_ON"],
     ":generator_on": ["-DGENERATOR_FEATURE_ON"],
     "//conditions:default": [],
 })
@@ -31,8 +25,6 @@ swift_library(
     ],
     copts = FEATURE_COPTS,
 )
-
-
 
 
 ios_application (

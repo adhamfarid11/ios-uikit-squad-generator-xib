@@ -1,27 +1,29 @@
 load("@rules_apple//apple:ios.bzl", "ios_application")
 load("@rules_swift//swift:swift.bzl", "swift_library")
 
-load(
-    "@com_github_buildbuddy_io_rules_xcodeproj//xcodeproj:defs.bzl",
-    "top_level_target",
-    "xcodeproj",
+config_setting(
+    name = "timer_on",
+    define_values = {"timer_feature": "on"},
 )
+
+
+FEATURE_COPTS = select({
+    ":timer_on": ["-DTIMER_FEATURE_ON"],
+    "//conditions:default": [],
+})
 
 swift_library(
     name = "lib",
     module_name = "App",
-    srcs = glob([
-        "*.swift"
-        ]),
+    srcs = glob(["*.swift"]) + ["//squad-generator-xib:app_core_library"],
     visibility = ["//visibility:private"],
     data = [
-        # "Modules/NameGenerator/Main.xib",
         "TimerViewController.xib"
     ]
 )
 
 ios_application (
-    name = "App_Timer",
+    name = "App",
     deps = [
         ":lib",
         "//squad-generator-xib:shared_resources"
@@ -31,9 +33,6 @@ ios_application (
         "iphone"
     ],
     infoplists = ["//squad-generator-xib:base_infoplist"],
-    # resources = glob([
-    #     "*.xib",
-    # ]),
     minimum_os_version = "14.0",
     visibility = ["//visibility:public"]
 )
