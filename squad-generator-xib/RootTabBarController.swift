@@ -25,14 +25,21 @@ final class RootTabBarController: UITabBarController {
         
         #if GENERATOR_FEATURE_ON
         let home = UINavigationController(rootViewController: GeneratorModule.build())
-        home.tabBarItem = item1Child
+        home.tabBarItem = UITabBarItem(
+            title: "Generator",
+            image: UIImage(systemName: "bolt"),
+            selectedImage: UIImage(systemName: "bolt.fill")
+        )
         controllers.append(home)
         #endif
-        
-        
+
         #if TIMER_FEATURE_ON
         let timer = UINavigationController(rootViewController: TimerViewController())
-        timer.tabBarItem = item2Child
+        timer.tabBarItem = UITabBarItem(
+            title: "Timer",
+            image: UIImage(systemName: "timer"),
+            selectedImage: UIImage(systemName: "timer.fill")
+        )
         controllers.append(timer)
         #endif
 
