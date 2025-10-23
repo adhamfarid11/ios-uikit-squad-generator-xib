@@ -19,7 +19,8 @@ swift_library(
     visibility = ["//visibility:private"],
     data = [
         "TimerViewController.xib"
-    ]
+    ],
+    copts = FEATURE_COPTS,
 )
 
 ios_application (
