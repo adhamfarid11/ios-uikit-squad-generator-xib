@@ -1,0 +1,5 @@
+build:generator //squad-generator-xib/Modules/NameGenerator:App --define=generator_feature=on
+run:generator   //squad-generator-xib/Modules/NameGenerator:App --define=generator_feature=on
+
+build:timer //squad-generator-xib/Modules/Timer:App --define=generator_feature=on
+run:timer   //squad-generator-xib/Modules/Timer:App --define=generator_feature=on
