@@ -102,6 +102,7 @@ class ChatViewController: UIViewController {
         }
         
         self.appendMessages(message, isOutgoing: true)
+        presenter.sendMessage(message)
         
         textFieldView.text = ""
         textFieldView.resignFirstResponder()
