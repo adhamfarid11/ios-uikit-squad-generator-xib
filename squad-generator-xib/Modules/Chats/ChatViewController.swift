@@ -16,10 +16,12 @@ class ChatViewController: UIViewController {
     @IBOutlet weak var inputFieldStackView: UIStackView!
     @IBOutlet weak var chatTableView: UITableView!
     
-    var items: [ChatMessage] = [
+    var messages: [ChatMessage] = [
         .init(text: "Hello!", isOutgoing: true,  isSent: true),
         .init(text: "Hi there 👋", isOutgoing: false, isSent: true)
     ]
+    
+    private let presenter = ChatPresenter()
     
     override func viewDidLoad() {
         
@@ -32,6 +34,14 @@ class ChatViewController: UIViewController {
         
         let nib = UINib(nibName: "ChatCellTableViewCell", bundle: nil)
         chatTableView.register(nib, forCellReuseIdentifier: "ChatCell")
+        
+        presenter.delegate = self
+        presenter.start()
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+        presenter.stop()
     }
     
     func setupView() {
@@ -91,27 +101,12 @@ class ChatViewController: UIViewController {
             return
         }
         
-        self.sendMessageLogic(message)
+        self.appendMessages(message, isOutgoing: true)
         
         textFieldView.text = ""
         textFieldView.resignFirstResponder()
     }
     
-    func sendMessageLogic(_ text: String) {
-        guard !text.isEmpty else { return }
-        let newMsg = ChatMessage(text: text, isOutgoing: true, isSent: false)
-        items.append(newMsg)
-        
-        let newIndex = IndexPath(row: items.count - 1, section: 0)
-        chatTableView.insertRows(at: [newIndex], with: .automatic)
-        chatTableView.scrollToRow(at: newIndex, at: .bottom, animated: true)
-        
-        // Simulate send success → update isSent and reload that row
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            self.items[self.items.count - 1] = ChatMessage(text: text, isOutgoing: true, isSent: true)
-            self.chatTableView.reloadRows(at: [newIndex], with: .none)
-        }
-    }
 }
 
 // MARK: - Keyboard
@@ -174,15 +169,152 @@ extension ChatViewController: UITextViewDelegate {
 extension ChatViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return items.count
+        return messages.count
     }
     
     func tableView(_ tableView: UITableView,
                    cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ChatCell",
                                                  for: indexPath) as! ChatCellTableViewCell
-        let msg = items[indexPath.row]
+        let msg = messages[indexPath.row]
         cell.configure(with: msg)
         return cell
     }
 }
+
+extension ChatViewController: ChatPresenterDelegate {
+    func disableSendBtnView() {
+        sendBtnView.isUserInteractionEnabled = false
+        sendBtnView.alpha = 0.5
+    }
+    
+    func enableSendBtnView() {
+        sendBtnView.isUserInteractionEnabled = true
+        sendBtnView.alpha = 1
+    }
+    
+    func chatPresenter(_ presenter: ChatPresenter, didChange state: ChatConnectionState) {
+        DispatchQueue.main.async {
+            switch state {
+            case .idle:
+                self.navigationItem.subtitle = "Idle"
+                self.disableSendBtnView()
+                
+            case .connecting:
+                self.navigationItem.subtitle = "Connecting..."
+                self.disableSendBtnView()
+                
+            case .reconnecting(let attempt):
+                self.navigationItem.subtitle = "Reconnecting (\(attempt))..."
+                self.showSnackbar(message: "Reconnecting!", backgroundColor: .systemBlue)
+                self.disableSendBtnView()
+                
+            case .connected:
+                self.navigationItem.subtitle = ""
+                self.enableSendBtnView()
+                
+            case .failed(let error):
+                self.navigationItem.subtitle = "Connection failed: \(error)"
+                self.showSnackbar(message: "Connection failed: \(error)", backgroundColor: .systemRed)
+                self.disableSendBtnView()
+                
+            case .closed(let error):
+                if let error = error {
+                    self.navigationItem.subtitle = "Closed: \(error)"
+                } else {
+                    self.navigationItem.subtitle = "Connection closed"
+                }
+                self.showSnackbar(message: "Connection Closed!", backgroundColor: .systemRed)
+                self.disableSendBtnView()
+            }
+        }
+        
+    }
+    
+    func didReceiveChatMessages(_ messages: String) {
+        DispatchQueue.main.async { [weak self] in
+            self?.appendMessages(messages, isOutgoing: false)
+        }
+    }
+    
+    private func appendMessages(_ newMsgs: String, isOutgoing: Bool = false, isSent: Bool = false) {
+        let start = messages.count
+        guard !newMsgs.isEmpty else { return }
+        
+        messages.append(ChatMessage(text: newMsgs, isOutgoing: isOutgoing, isSent: isSent))
+        
+        let end = messages.count
+        let indexPaths = (start..<end).map { IndexPath(row: $0, section: 0) }
+        
+        DispatchQueue.main.async {
+            self.chatTableView.performBatchUpdates({
+                self.chatTableView.insertRows(at: indexPaths, with: .automatic)
+            }, completion: { _ in
+                if let last = indexPaths.last {
+                    self.chatTableView.scrollToRow(at: last, at: .bottom, animated: true)
+                }
+            })
+        }
+    }
+}
+
+extension ChatViewController {
+    func showSnackbar(
+        message: String,
+        backgroundColor: UIColor = .label,
+        textColor: UIColor = .systemBackground,
+        duration: TimeInterval = 2.0
+    ) {
+        // Remove any existing snackbar first
+        view.subviews.filter { $0.tag == 9999 }.forEach { $0.removeFromSuperview() }
+        
+        // Snackbar container
+        let snackbar = UIView()
+        snackbar.tag = 9999
+        snackbar.backgroundColor = backgroundColor
+        snackbar.layer.cornerRadius = 10
+        snackbar.layer.masksToBounds = true
+        snackbar.alpha = 0
+
+        // Label inside snackbar
+        let label = UILabel()
+        label.text = message
+        label.textColor = textColor
+        label.numberOfLines = 0
+        label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 15, weight: .medium)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        
+        snackbar.addSubview(label)
+        view.addSubview(snackbar)
+
+        // Layout constraints
+        snackbar.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            label.topAnchor.constraint(equalTo: snackbar.topAnchor, constant: 12),
+            label.bottomAnchor.constraint(equalTo: snackbar.bottomAnchor, constant: -12),
+            label.leadingAnchor.constraint(equalTo: snackbar.leadingAnchor, constant: 16),
+            label.trailingAnchor.constraint(equalTo: snackbar.trailingAnchor, constant: -16),
+
+            snackbar.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
+            snackbar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: -150)
+        ])
+
+        // Animate in
+        UIView.animate(withDuration: 0.3) {
+            snackbar.alpha = 1
+            snackbar.transform = CGAffineTransform(translationX: 0, y: 100)
+        }
+
+        // Hide after delay
+        DispatchQueue.main.asyncAfter(deadline: .now() + duration) {
+            UIView.animate(withDuration: 0.3, animations: {
+                snackbar.alpha = 0
+                snackbar.transform = .identity
+            }) { _ in
+                snackbar.removeFromSuperview()
+            }
+        }
+    }
+}
+
