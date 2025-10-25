@@ -59,8 +59,8 @@ class ChatCellTableViewCell: UITableViewCell {
             messageLabel.trailingAnchor.constraint(equalTo: bubbleView.trailingAnchor, constant: -12),
             
             checkmarkView.leadingAnchor.constraint(greaterThanOrEqualTo: bubbleView.leadingAnchor, constant: 8),
-            checkmarkView.bottomAnchor.constraint(equalTo: bubbleView.bottomAnchor, constant: -4),
-            checkmarkView.trailingAnchor.constraint(equalTo: bubbleView.trailingAnchor, constant: -6),
+            checkmarkView.bottomAnchor.constraint(equalTo: bubbleView.bottomAnchor, constant: -6),
+            checkmarkView.trailingAnchor.constraint(equalTo: bubbleView.trailingAnchor, constant: -8),
             checkmarkView.widthAnchor.constraint(equalToConstant: 14),
             checkmarkView.heightAnchor.constraint(equalToConstant: 14),
             
@@ -86,7 +86,7 @@ class ChatCellTableViewCell: UITableViewCell {
             checkmarkView.image = UIImage(systemName: message.isSent ? "checkmark.circle.fill" : "checkmark.circle")
             
             NSLayoutConstraint.activate([
-                messageLabel.trailingAnchor.constraint(equalTo: bubbleView.trailingAnchor, constant: -30)
+                messageLabel.trailingAnchor.constraint(equalTo: bubbleView.trailingAnchor, constant: -25)
             ])
         } else {
             leadingConstraint.isActive = true
