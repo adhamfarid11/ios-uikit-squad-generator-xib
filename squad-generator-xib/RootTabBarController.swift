@@ -35,7 +35,7 @@ final class RootTabBarController: UITabBarController {
         controllers.append(timer)
         #endif
         
-        #if TIMER_FEATURE_ON
+        #if CHATS_FEATURE_ON
         let chats = UINavigationController(rootViewController: ChatModule.build())
         chats.tabBarItem = UITabBarItem(title: "Chats",
                                          image: UIImage(systemName: "message"),
@@ -43,7 +43,7 @@ final class RootTabBarController: UITabBarController {
         controllers.append(chats)
         #endif
 
-        #if TIMER_FEATURE_ON
+        #if LIBRARY_FEATURE_ON
         let library = UINavigationController(rootViewController: LibraryModule.build())
         library.tabBarItem = UITabBarItem(title: "Library",
                                          image: UIImage(systemName: "books.vertical"),
