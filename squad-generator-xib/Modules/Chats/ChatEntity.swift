@@ -9,4 +9,5 @@ struct ChatMessage {
     let text: String
     let isOutgoing: Bool
     let isSent: Bool
+    let username: String?
 }

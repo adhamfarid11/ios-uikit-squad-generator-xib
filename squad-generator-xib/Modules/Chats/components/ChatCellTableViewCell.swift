@@ -10,6 +10,7 @@ import UIKit
 class ChatCellTableViewCell: UITableViewCell {
     @IBOutlet weak var messageLabel: UILabel!
     
+    private let usernameLabel = UILabel()
     private let checkmarkView = UIImageView()
     
     private var leadingConstraint: NSLayoutConstraint!
@@ -51,6 +52,12 @@ class ChatCellTableViewCell: UITableViewCell {
         bubbleView.addSubview(checkmarkView)
         contentView.addSubview(bubbleView)
         
+        usernameLabel.font = UIFont(name: "AvenirNext-DemiBold", size: 12)
+        usernameLabel.textColor = .secondaryLabel
+        usernameLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        contentView.addSubview(usernameLabel)
+        
         // Padding inside the bubble
         NSLayoutConstraint.activate([
             messageLabel.topAnchor.constraint(equalTo: bubbleView.topAnchor, constant: 8),
@@ -64,7 +71,10 @@ class ChatCellTableViewCell: UITableViewCell {
             checkmarkView.widthAnchor.constraint(equalToConstant: 14),
             checkmarkView.heightAnchor.constraint(equalToConstant: 14),
             
-            bubbleView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 4),
+            usernameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 4),
+            usernameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 4),
+            
+            bubbleView.topAnchor.constraint(equalTo: usernameLabel.bottomAnchor, constant: 4),
             bubbleView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -4),
             bubbleView.widthAnchor.constraint(lessThanOrEqualTo: contentView.widthAnchor, multiplier: 0.75)
         ])
@@ -85,14 +95,18 @@ class ChatCellTableViewCell: UITableViewCell {
             checkmarkView.tintColor = message.isSent ? .systemBlue : .systemGray3
             checkmarkView.image = UIImage(systemName: message.isSent ? "checkmark.circle.fill" : "checkmark.circle")
             
+            usernameLabel.isHidden = true
+            
             NSLayoutConstraint.activate([
-                messageLabel.trailingAnchor.constraint(equalTo: bubbleView.trailingAnchor, constant: -25)
+                messageLabel.trailingAnchor.constraint(equalTo: bubbleView.trailingAnchor, constant: -25),
+                bubbleView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 4),
             ])
         } else {
             leadingConstraint.isActive = true
             trailingConstraint.isActive = false
             bubbleView.backgroundColor = .lightGray
             messageLabel.textColor = .black
+            usernameLabel.text = message.username
             checkmarkView.isHidden = true
         }
     }

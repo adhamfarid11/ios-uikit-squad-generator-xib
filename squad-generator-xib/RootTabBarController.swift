@@ -21,12 +21,17 @@ final class RootTabBarController: UITabBarController {
                                          image: UIImage(systemName: "timer"),
                                          selectedImage: nil)
         
-        let chats = UINavigationController(rootViewController: ChatViewController())
+        let chats = UINavigationController(rootViewController: ChatModule.build())
         chats.tabBarItem = UITabBarItem(title: "Chats",
                                          image: UIImage(systemName: "message"),
                                          selectedImage: UIImage(systemName: "message.fill"))
+        
+        let library = UINavigationController(rootViewController: LibraryModule.build())
+        library.tabBarItem = UITabBarItem(title: "Library",
+                                         image: UIImage(systemName: "books.vertical"),
+                                         selectedImage: UIImage(systemName: "books.vertical.fill"))
 
-        viewControllers = [home, chats, timer]
+        viewControllers = [home, chats, timer, library]
 
         // (Optional) iOS 15+ appearance
         let appearance = UITabBarAppearance()

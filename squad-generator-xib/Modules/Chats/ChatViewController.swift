@@ -16,12 +16,10 @@ class ChatViewController: UIViewController {
     @IBOutlet weak var inputFieldStackView: UIStackView!
     @IBOutlet weak var chatTableView: UITableView!
     
-    var messages: [ChatMessage] = [
-        .init(text: "Hello!", isOutgoing: true,  isSent: true),
-        .init(text: "Hi there 👋", isOutgoing: false, isSent: true)
-    ]
+    var messages: [ChatMessage] = []
+    var username = "User"
     
-    private let presenter = ChatPresenter()
+    var presenter: ChatPresenter?
     
     override func viewDidLoad() {
         
@@ -35,13 +33,13 @@ class ChatViewController: UIViewController {
         let nib = UINib(nibName: "ChatCellTableViewCell", bundle: nil)
         chatTableView.register(nib, forCellReuseIdentifier: "ChatCell")
         
-        presenter.delegate = self
-        presenter.start()
+        presenter?.delegate = self
+        presenter?.start()
     }
     
     deinit {
         NotificationCenter.default.removeObserver(self)
-        presenter.stop()
+        presenter?.stop()
     }
     
     func setupView() {
@@ -102,7 +100,7 @@ class ChatViewController: UIViewController {
         }
         
         self.appendMessages(message, isOutgoing: true)
-        presenter.sendMessage(message)
+        presenter?.sendChatMessage(text: message, username: username)
         
         textFieldView.text = ""
         textFieldView.resignFirstResponder()
@@ -178,7 +176,7 @@ extension ChatViewController: UITableViewDataSource, UITableViewDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ChatCell",
                                                  for: indexPath) as! ChatCellTableViewCell
         let msg = messages[indexPath.row]
-        cell.configure(with: msg)
+        cell.configure(with: msg) // TODO
         return cell
     }
 }
@@ -232,17 +230,19 @@ extension ChatViewController: ChatPresenterDelegate {
         
     }
     
-    func didReceiveChatMessages(_ messages: String) {
+    func didReceiveChatMessages(message: String, username: String) {
         DispatchQueue.main.async { [weak self] in
-            self?.appendMessages(messages, isOutgoing: false)
+            if username != self?.username {
+                self?.appendMessages(message, isOutgoing: false, username: username)
+            }
         }
     }
     
-    private func appendMessages(_ newMsgs: String, isOutgoing: Bool = false, isSent: Bool = false) {
+    private func appendMessages(_ newMsgs: String, isOutgoing: Bool = false, isSent: Bool = false, username: String? = nil) {
         let start = messages.count
         guard !newMsgs.isEmpty else { return }
         
-        messages.append(ChatMessage(text: newMsgs, isOutgoing: isOutgoing, isSent: isSent))
+        messages.append(ChatMessage(text: newMsgs, isOutgoing: isOutgoing, isSent: isSent, username: username))
         
         let end = messages.count
         let indexPaths = (start..<end).map { IndexPath(row: $0, section: 0) }

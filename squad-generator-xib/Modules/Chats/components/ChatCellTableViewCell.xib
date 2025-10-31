@@ -12,15 +12,15 @@
         <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="65" id="KGk-i7-Jjw" customClass="ChatCellTableViewCell" customModule="squad_generator_xib" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="320" height="65"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
                 <rect key="frame" x="0.0" y="0.0" width="320" height="65"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3jC-hM-zlg">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
+                        <rect key="frame" x="0.0" y="7.6666666666666643" width="41.333333333333336" height="50"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uXz-pC-ubR">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
+                                <rect key="frame" x="0.0" y="0.0" width="41.333333333333336" height="50"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -32,11 +32,8 @@
                     </stackView>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="bottom" secondItem="3jC-hM-zlg" secondAttribute="bottom" id="De7-8O-OSB"/>
-                    <constraint firstAttribute="trailing" secondItem="3jC-hM-zlg" secondAttribute="trailing" id="Jqu-Ot-IBY"/>
-                    <constraint firstItem="3jC-hM-zlg" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="RKK-qw-v8s"/>
-                    <constraint firstItem="3jC-hM-zlg" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="YWX-ry-1fx"/>
-                    <constraint firstItem="3jC-hM-zlg" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="fjW-xD-UF8"/>
+                    <constraint firstItem="3jC-hM-zlg" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="-16" id="2eO-bb-r4K"/>
+                    <constraint firstItem="3jC-hM-zlg" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="vq6-ax-NnW"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
