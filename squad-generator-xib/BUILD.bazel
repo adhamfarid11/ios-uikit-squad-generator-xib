@@ -1,35 +1,29 @@
 load("@rules_apple//apple:ios.bzl", "ios_application")
 load("@rules_swift//swift:swift.bzl", "swift_library")
 
-swift_library(
-    name = "lib",
-    module_name = "App",
+# these are only the static file
+filegroup(
+    name = "shared_resources",
     srcs = glob([
-        "*.swift",
-        "Modules/NameGenerator/*.swift",
-        "Modules/Timer/*.swift"
-        ]),
-    visibility = ["//visibility:private"],
-    data = [
-        "Modules/NameGenerator/Main.xib",
-        "Modules/Timer/TimerViewController.xib",
-        "RootTabBar.xib",
-    ]
+        "Assets.xcassets/**",
+        "RootTabBar.xib"
+    ]),
+    visibility = ["//visibility:public"]
 )
 
-ios_application (
-    name = "App",
-    deps = [":lib"],
-    bundle_id = "com.letstrysomethingnew.squad-generator-xib",
-    families = [
-        "iphone",
-        "ipad",
+filegroup(
+    name = "base_infoplist",
+    srcs = ["Bazel-Info.plist"],
+    visibility = ["//visibility:public"],
+)
+
+# this will compile codes
+filegroup( 
+    name = "app_core_library",
+    srcs = [
+        "AppDelegate.swift",
+        "SceneDelegate.swift",
+        "RootTabBarController.swift",
     ],
-    infoplists = ["Bazel-Info.plist"],
-   resources = glob([
-    "Assets.xcassets/**",
-    "**/*.xib",
-]),
-    minimum_os_version = "14.0",
-    visibility = ["//visibility:public"]
+    visibility = ["//visibility:public"],
 )
