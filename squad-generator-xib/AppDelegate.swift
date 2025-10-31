@@ -6,18 +6,25 @@
 //
 
 import UIKit
+import UserNotifications
+
 
 @main
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
+    func application(_ application: UIApplication,
+                        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+           UNUserNotificationCenter.current().delegate = self
+           return true
+       }
 
+       // Show banners while app is in foreground (iOS 10+)
+       func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                   willPresent notification: UNNotification,
+                                   withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+           completionHandler([.banner, .list, .sound])
+       }
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
-        return true
-    }
-
-    // MARK: UISceneSession Lifecycle
 
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
         // Called when a new scene session is being created.

@@ -19,6 +19,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window.rootViewController = RootTabBarController()
         self.window = window
         window.makeKeyAndVisible()
+        
+        if let endpoint = URL(string: "ws://ec2-52-221-203-202.ap-southeast-1.compute.amazonaws.com:8080/ws/books") {
+            BookNotificationService.shared.start(with: endpoint)
+        }
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
