@@ -3,3 +3,9 @@ run:generator   //squad-generator-xib/Modules/NameGenerator:App --define=generat
 
 build:timer //squad-generator-xib/Modules/Timer:App --define=timer_feature=on
 run:timer   //squad-generator-xib/Modules/Timer:App --define=timer_feature=on
+
+build:chats //squad-generator-xib/Modules/Chats:App --define=chats_feature=on
+run:chats   //squad-generator-xib/Modules/Chats:App --define=chats_feature=on
+
+build:library //squad-generator-xib/Modules/Library:App --define=library_feature=on
+run:library   //squad-generator-xib/Modules/Library:App --define=library_feature=on

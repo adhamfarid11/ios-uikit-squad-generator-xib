@@ -12,12 +12,6 @@ import UIKit
 
 final class RootTabBarController: UITabBarController {
     
-    // Use an array to store items since the number is now conditional
-    // @IBOutlet properties for UIViewController are usually not needed in this setup
-    
-    @IBOutlet weak var item1Child: UITabBarItem! // Item for Generator
-    @IBOutlet weak var item2Child: UITabBarItem! // Item for Timer (Conditional)
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -35,12 +29,26 @@ final class RootTabBarController: UITabBarController {
 
         #if TIMER_FEATURE_ON
         let timer = UINavigationController(rootViewController: TimerViewController())
-        timer.tabBarItem = UITabBarItem(
-            title: "Timer",
-            image: UIImage(systemName: "timer"),
-            selectedImage: UIImage(systemName: "timer.fill")
-        )
+        timer.tabBarItem = UITabBarItem(title: "Timer",
+                                         image: UIImage(systemName: "timer"),
+                                         selectedImage: nil)
         controllers.append(timer)
+        #endif
+        
+        #if CHATS_FEATURE_ON
+        let chats = UINavigationController(rootViewController: ChatModule.build())
+        chats.tabBarItem = UITabBarItem(title: "Chats",
+                                         image: UIImage(systemName: "message"),
+                                         selectedImage: UIImage(systemName: "message.fill"))
+        controllers.append(chats)
+        #endif
+
+        #if LIBRARY_FEATURE_ON
+        let library = UINavigationController(rootViewController: LibraryModule.build())
+        library.tabBarItem = UITabBarItem(title: "Library",
+                                         image: UIImage(systemName: "books.vertical"),
+                                         selectedImage: UIImage(systemName: "books.vertical.fill"))
+        controllers.append(library)
         #endif
 
         viewControllers = controllers
