@@ -45,14 +45,18 @@ class ChatViewController: UIViewController {
     func setupView() {
         view.backgroundColor = .systemBackground
         navigationItem.title = "Chats with LeWin"
-        navigationItem.subtitle = "Konakting..."
+        if #available(iOS 26.0, *) {
+            navigationItem.subtitle = "Konakting..."
+        }
         
         sendBtnView.layer.cornerRadius = 20
         sendBtnView.clipsToBounds = true
         
         textFieldView.textContainerInset = UIEdgeInsets(top: 16, left: 10, bottom: 12, right: 10)
         textFieldView.layer.cornerRadius = 20
-        textFieldView.borderStyle = .none
+        if #available(iOS 17.0, *) {
+            textFieldView.borderStyle = .none
+        }
         textFieldView.layer.borderWidth = 2
         textFieldView.layer.borderColor = UIColor.lightGray.cgColor
         textFieldView.clipsToBounds = true
@@ -196,32 +200,44 @@ extension ChatViewController: ChatPresenterDelegate {
         DispatchQueue.main.async {
             switch state {
             case .idle:
-                self.navigationItem.subtitle = "Idle"
+                if #available(iOS 26.0, *) {
+                    self.navigationItem.subtitle = "Idle"
+                }
                 self.disableSendBtnView()
                 
             case .connecting:
-                self.navigationItem.subtitle = "Connecting..."
+                if #available(iOS 26.0, *) {
+                    self.navigationItem.subtitle = "Connecting..."
+                }
                 self.disableSendBtnView()
                 
             case .reconnecting(let attempt):
-                self.navigationItem.subtitle = "Reconnecting (\(attempt))..."
+                if #available(iOS 26.0, *) {
+                    self.navigationItem.subtitle = "Reconnecting (\(attempt))..."
+                }
                 self.showSnackbar(message: "Reconnecting!", backgroundColor: .systemBlue)
                 self.disableSendBtnView()
                 
             case .connected:
-                self.navigationItem.subtitle = ""
+                if #available(iOS 26.0, *) {
+                    self.navigationItem.subtitle = ""
+                }
                 self.enableSendBtnView()
                 
             case .failed(let error):
-                self.navigationItem.subtitle = "Connection failed: \(error)"
+                if #available(iOS 26.0, *) {
+                    self.navigationItem.subtitle = "Connection failed: \(error)"
+                }
                 self.showSnackbar(message: "Connection failed: \(error)", backgroundColor: .systemRed)
                 self.disableSendBtnView()
                 
             case .closed(let error):
-                if let error = error {
-                    self.navigationItem.subtitle = "Closed: \(error)"
-                } else {
-                    self.navigationItem.subtitle = "Connection closed"
+                if #available(iOS 26.0, *) {
+                    if let error = error {
+                        self.navigationItem.subtitle = "Closed: \(error)"
+                    } else {
+                        self.navigationItem.subtitle = "Connection closed"
+                    }
                 }
                 self.showSnackbar(message: "Connection Closed!", backgroundColor: .systemRed)
                 self.disableSendBtnView()
