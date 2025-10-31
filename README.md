@@ -53,3 +53,33 @@ bazel build --config=timer
 ```bash
 bazel run --config=timer
 ```
+
+## 📚 Library
+
+**Build:**
+
+```bash
+bazel build --config=library
+```
+
+**Run:**
+
+```bash
+bazel run --config=library
+```
+
+---
+
+## 🤼‍♂️ Chats
+
+**Build:**
+
+```bash
+bazel build --config=chats
+```
+
+**Run:**
+
+```bash
+bazel run --config=chats
+```
