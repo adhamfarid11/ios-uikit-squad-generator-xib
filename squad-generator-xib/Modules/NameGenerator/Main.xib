@@ -20,20 +20,17 @@
             <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="2Ar-Ch-LjD">
-                    <rect key="frame" x="109.66666666666667" y="388.66666666666669" width="173.66666666666663" height="74.666666666666686"/>
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="69" translatesAutoresizingMaskIntoConstraints="NO" id="iCl-mA-jHo">
+                    <rect key="frame" x="109.66666666666667" y="364.33333333333331" width="173.66666666666663" height="123.66666666666669"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="nameLabel" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1TX-dV-fpG">
                             <rect key="frame" x="0.0" y="0.0" width="173.66666666666666" height="20.333333333333332"/>
-                            <constraints>
-                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="173.66999999999999" id="rg0-ei-4mT"/>
-                            </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="M1W-AL-mXQ">
-                            <rect key="frame" x="0.0" y="40.333333333333314" width="173.66666666666666" height="34.333333333333343"/>
+                            <rect key="frame" x="0.0" y="89.333333333333371" width="173.66666666666666" height="34.333333333333343"/>
                             <state key="normal" title="Button"/>
                             <buttonConfiguration key="configuration" style="filled" title="Generate Name XIB"/>
                         </button>
@@ -43,8 +40,8 @@
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
-                <constraint firstItem="2Ar-Ch-LjD" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="D1D-yB-c87"/>
-                <constraint firstItem="2Ar-Ch-LjD" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="LZW-Gi-jaO"/>
+                <constraint firstItem="iCl-mA-jHo" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="dfe-8w-1Lb"/>
+                <constraint firstItem="iCl-mA-jHo" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="upc-zY-jaP"/>
             </constraints>
             <point key="canvasLocation" x="119.84732824427481" y="119.71830985915494"/>
         </view>

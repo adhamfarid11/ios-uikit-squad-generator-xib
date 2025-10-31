@@ -2,31 +2,56 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
-	<key>CFBundleVersion</key>
-	<string>1</string>
-	<key>UILaunchStoryboardName</key>
-	<string>LaunchScreen</string>
+    <key>UIApplicationSceneManifest</key>
+    <dict>
+        <key>UIApplicationSupportsMultipleScenes</key>
+        <false/>
+        <key>UISceneConfigurations</key>
+        <dict>
+            <key>UIWindowSceneSessionRoleApplication</key>
+            <array>
+                <dict>
+                    <key>UISceneConfigurationName</key>
+                    <string>Default Configuration</string>
+                    <key>UISceneDelegateClassName</key>
+                    <string>$(PRODUCT_MODULE_NAME).SceneDelegate</string>
+                </dict>
+            </array>
+        </dict>
+    </dict>
 
-	<key>UIApplicationSceneManifest</key>
-	<dict>
-		<key>UIApplicationSupportsMultipleScenes</key>
-		<false/>
-		<key>UISceneConfigurations</key>
-		<dict>
-			<key>UIWindowSceneSessionRoleApplication</key>
-			<array>
-				<dict>
-					<key>UISceneConfigurationName</key>
-					<string>Default Configuration</string>
-					<key>NSMainNibFile</key>
-					<string>RootTabBar</string>
-					<key>UISceneDelegateClassName</key>
-					<string>$(PRODUCT_MODULE_NAME).SceneDelegate</string>
-				</dict>
-			</array>
-		</dict>
-	</dict>
+    <key>NSAppTransportSecurity</key>
+    <dict>
+        <key>NSExceptionDomains</key>
+        <dict>
+            <key>18.139.84.147</key>
+            <dict>
+                <key>NSExceptionAllowsInsecureHTTPLoads</key>
+                <true/>
+                <key>NSExceptionRequiresForwardSecrecy</key>
+                <false/>
+            </dict>
+        </dict>
+    </dict>
+    <key>NSAppTransportSecurity</key>
+    <dict>
+    <key>NSExceptionDomains</key>
+    <dict>
+        <key>ec2-52-221-203-202.ap-southeast-1.compute.amazonaws.com</key>
+        
+        <dict>
+        <key>NSIncludesSubdomains</key>
+        <true/>
+        <!-- Allow plain HTTP for this host -->
+        <key>NSExceptionAllowsInsecureHTTPLoads</key>
+        <true/>
+        <!-- Optional: relax TLS rules if you flip to HTTPS with non-FS ciphers -->
+        <key>NSExceptionRequiresForwardSecrecy</key>
+        <false/>
+        <key>NSTemporaryExceptionMinimumTLSVersion</key>
+        <string>TLSv1.0</string>
+        </dict>
+    </dict>
+    </dict>
 </dict>
 </plist>
