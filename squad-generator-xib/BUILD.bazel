@@ -24,6 +24,7 @@ filegroup(
         "AppDelegate.swift",
         "SceneDelegate.swift",
         "RootTabBarController.swift",
+        "Modules/BookNotification/BookNotificationService.swift"
     ],
     visibility = ["//visibility:public"],
 )
