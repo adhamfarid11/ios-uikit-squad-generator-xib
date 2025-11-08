@@ -21,7 +21,12 @@
 		56E52CE82E950DCA009F0996 /* Exceptions for "squad-generator-xib" folder in "squad-generator-xib" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				"Bazel-Info.plist",
 				Info.plist,
+				Modules/Chats/BUILD.bazel,
+				Modules/Library/BUILD.bazel,
+				Modules/NameGenerator/BUILD.bazel,
+				Modules/Timer/BUILD.bazel,
 			);
 			target = 56E52CD52E950DCA009F0996 /* squad-generator-xib */;
 		};
