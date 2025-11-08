@@ -9,7 +9,13 @@ import UIKit
 import FirebaseAuth
 import LocalAuthentication
 
+// MARK: - LoginVC
+
 class LoginVC: UIViewController {
+    
+    // Simple feature flags in UserDefaults
+    private let kBiometricEnabled = "biometricLoginEnabled"
+    private let kBiometricEmail   = "biometricLoginEmail"
     
     private let emailField: UITextField = {
         let tf = UITextField()
@@ -42,9 +48,10 @@ class LoginVC: UIViewController {
         return b
     }()
     
+    // This button either enables Face ID (if not set up) or performs Face ID login.
     private let faceIdButton: UIButton = {
         let b = UIButton(type: .system)
-        b.setTitle("Face ID", for: .normal)
+        b.setTitle("Use Face ID", for: .normal)
         b.addTarget(self, action: #selector(faceIdTapped), for: .touchUpInside)
         return b
     }()
@@ -58,9 +65,16 @@ class LoginVC: UIViewController {
             view.addSubview(v)
         }
         layout()
-        // If already signed in, skip:
-        if Auth.auth().currentUser != nil {
-            goToHome()
+        
+        // If Firebase has a session, optionally gate with Face ID before proceeding
+        if let _ = Auth.auth().currentUser {
+            if UserDefaults.standard.bool(forKey: kBiometricEnabled) {
+                authenticateUser(reason: "Unlock your account") { [weak self] ok in
+                    ok ? self?.goToHome() : self?.showAlert("Authentication cancelled")
+                }
+            } else {
+                goToHome()
+            }
         }
     }
     
@@ -85,6 +99,8 @@ class LoginVC: UIViewController {
         ])
     }
     
+    // MARK: - Email/Password
+    
     @objc private func signInTapped() {
         guard let email = emailField.text, let password = passwordField.text,
               !email.isEmpty, !password.isEmpty else {
@@ -96,6 +112,7 @@ class LoginVC: UIViewController {
                 self?.showAlert(error.localizedDescription)
                 return
             }
+            self?.offerEnableBiometrics(email: email, password: password)
             self?.goToHome()
         }
     }
@@ -111,34 +128,118 @@ class LoginVC: UIViewController {
                 self?.showAlert(error.localizedDescription)
                 return
             }
+            self?.offerEnableBiometrics(email: email, password: password)
             self?.goToHome()
         }
     }
     
-    @objc private func faceIdTapped() {
-        biometricsAuthentication()
-    }
-    
-    func biometricsAuthentication() {
-        let context = LAContext()
-        var error : NSError? = nil
-        if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
-            context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: "Access to your app") { success, error in
-                DispatchQueue.main.async {
-                    if success {
-                        self.goToHome()
-                    } else {
-                        self.showAlert("Authentication failed")
-                    }
+    private func offerEnableBiometrics(email: String, password: String) {
+        guard biometricAvailable() else { return }
+        // Only prompt if not already enabled for this user
+        if UserDefaults.standard.bool(forKey: kBiometricEnabled) == false {
+            let alert = UIAlertController(
+                title: "Enable Face ID?",
+                message: "Use Face ID or passcode next time to sign in automatically.",
+                preferredStyle: .alert
+            )
+            alert.addAction(UIAlertAction(title: "Not now", style: .cancel))
+            alert.addAction(UIAlertAction(title: "Enable", style: .default, handler: { _ in
+                do {
+                    try SecureKeychain.savePassword(password, account: email)
+                    UserDefaults.standard.set(true, forKey: self.kBiometricEnabled)
+                    UserDefaults.standard.set(email, forKey: self.kBiometricEmail)
+                } catch {
+                    self.showAlert("Could not enable Face ID: \(error.localizedDescription)")
                 }
-            }
-        } else {
-            self.showAlert("Unavailable")
+            }))
+            present(alert, animated: true)
         }
     }
     
+    // MARK: - Face ID / Passcode
+    
+    @objc private func faceIdTapped() {
+        // If already enabled, try to unlock and (if signed out) auto sign-in.
+        let enabled = UserDefaults.standard.bool(forKey: kBiometricEnabled)
+        if enabled {
+            biometricLoginFlow()
+        } else {
+            // Let user enable via current fields (requires entered email+password)
+            guard let email = emailField.text, let password = passwordField.text,
+                  !email.isEmpty, !password.isEmpty else {
+                showAlert("Enter email & password first, then tap Face ID to enable.")
+                return
+            }
+            do {
+                try SecureKeychain.savePassword(password, account: email)
+                UserDefaults.standard.set(true, forKey: kBiometricEnabled)
+                UserDefaults.standard.set(email, forKey: kBiometricEmail)
+                showAlert("Face ID enabled")
+            } catch {
+                showAlert("Could not enable Face ID: \(error.localizedDescription)")
+            }
+        }
+    }
+    
+    private func biometricLoginFlow() {
+        authenticateUser(reason: "Sign in with Face ID") { [weak self] ok in
+            guard let self else { return }
+            guard ok else {
+                self.showAlert("Authentication cancelled")
+                return
+            }
+            
+            if let _ = Auth.auth().currentUser {
+                // Session alive → just proceed
+                self.goToHome()
+                return
+            }
+            
+            // Session gone → auto sign-in with Keychain credential
+            guard let email = UserDefaults.standard.string(forKey: self.kBiometricEmail) else {
+                self.showAlert("No stored account")
+                return
+            }
+            do {
+                let password = try SecureKeychain.loadPassword(account: email, prompt: "Use Face ID to sign in")
+                Auth.auth().signIn(withEmail: email, password: password) { result, error in
+                    if let error = error {
+                        self.showAlert(error.localizedDescription)
+                        return
+                    }
+                    self.goToHome()
+                }
+            } catch {
+                self.showAlert("Could not retrieve credential")
+            }
+        }
+    }
+    
+    private func biometricAvailable() -> Bool {
+        let ctx = LAContext()
+        var err: NSError?
+        // Use deviceOwnerAuthentication for biometric + passcode fallback
+        return ctx.canEvaluatePolicy(.deviceOwnerAuthentication, error: &err)
+    }
+    
+    private func authenticateUser(reason: String, completion: @escaping (Bool) -> Void) {
+        let ctx = LAContext()
+        ctx.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason) { success, _ in
+            DispatchQueue.main.async { completion(success) }
+        }
+    }
+    
+    func disableBiometricLogin() {
+        if let email = UserDefaults.standard.string(forKey: kBiometricEmail) {
+            SecureKeychain.deletePassword(account: email)   // remove stored password
+        }
+        UserDefaults.standard.removeObject(forKey: kBiometricEnabled)
+        UserDefaults.standard.removeObject(forKey: kBiometricEmail)
+    }
+    
+    // MARK: - Navigation & UI
+    
     private func goToHome() {
-        // Replace with your Home VC
         let vc = RootTabBarController()
         vc.modalPresentationStyle = .fullScreen
         present(vc, animated: true)
