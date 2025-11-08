@@ -17,7 +17,7 @@ final class RootTabBarController: UITabBarController {
 
         var controllers: [UIViewController] = []
         
-        #if GENERATOR_FEATURE_ON
+
         let home = UINavigationController(rootViewController: GeneratorModule.build())
         home.tabBarItem = UITabBarItem(
             title: "Generator",
@@ -25,31 +25,24 @@ final class RootTabBarController: UITabBarController {
             selectedImage: UIImage(systemName: "bolt.fill")
         )
         controllers.append(home)
-        #endif
 
-        #if TIMER_FEATURE_ON
         let timer = UINavigationController(rootViewController: TimerViewController())
         timer.tabBarItem = UITabBarItem(title: "Timer",
                                          image: UIImage(systemName: "timer"),
                                          selectedImage: nil)
         controllers.append(timer)
-        #endif
         
-        #if CHATS_FEATURE_ON
         let chats = UINavigationController(rootViewController: ChatModule.build())
         chats.tabBarItem = UITabBarItem(title: "Chats",
                                          image: UIImage(systemName: "message"),
                                          selectedImage: UIImage(systemName: "message.fill"))
         controllers.append(chats)
-        #endif
 
-        #if LIBRARY_FEATURE_ON
         let library = UINavigationController(rootViewController: LibraryModule.build())
         library.tabBarItem = UITabBarItem(title: "Library",
                                          image: UIImage(systemName: "books.vertical"),
                                          selectedImage: UIImage(systemName: "books.vertical.fill"))
         controllers.append(library)
-        #endif
 
         viewControllers = controllers
 

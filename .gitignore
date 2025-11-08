@@ -1,0 +1,12 @@
+# CocoaPods
+Pods/
+# Xcode user data
+*.xcuserdatad/
+xcuserdata/
+# Build
+DerivedData/
+build/
+# Others
+*.xccheckout
+*.xcscmblueprint
+.DS_Store
