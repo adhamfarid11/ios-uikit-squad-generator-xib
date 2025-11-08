@@ -6,15 +6,27 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		5E1E41A8C6DB006AE792DC74 /* Pods_squad_generator_xib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A8043180A482A0439B3D524 /* Pods_squad_generator_xib.framework */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
+		0A8043180A482A0439B3D524 /* Pods_squad_generator_xib.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_squad_generator_xib.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3BC07A0973AEB5122E652C35 /* Pods-squad-generator-xib.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-squad-generator-xib.debug.xcconfig"; path = "Target Support Files/Pods-squad-generator-xib/Pods-squad-generator-xib.debug.xcconfig"; sourceTree = "<group>"; };
 		56E52CD62E950DCA009F0996 /* squad-generator-xib.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "squad-generator-xib.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B13A596871639BF1B56C5391 /* Pods-squad-generator-xib.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-squad-generator-xib.release.xcconfig"; path = "Target Support Files/Pods-squad-generator-xib/Pods-squad-generator-xib.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
 		56E52CE82E950DCA009F0996 /* Exceptions for "squad-generator-xib" folder in "squad-generator-xib" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				"Bazel-Info.plist",
 				Info.plist,
+				Modules/Chats/BUILD.bazel,
+				Modules/Library/BUILD.bazel,
+				Modules/NameGenerator/BUILD.bazel,
+				Modules/Timer/BUILD.bazel,
 			);
 			target = 56E52CD52E950DCA009F0996 /* squad-generator-xib */;
 		};
@@ -36,17 +48,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5E1E41A8C6DB006AE792DC74 /* Pods_squad_generator_xib.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0FCD48C7E59D2D7DB108E504 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0A8043180A482A0439B3D524 /* Pods_squad_generator_xib.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		56E52CCD2E950DCA009F0996 = {
 			isa = PBXGroup;
 			children = (
 				56E52CD82E950DCA009F0996 /* squad-generator-xib */,
 				56E52CD72E950DCA009F0996 /* Products */,
+				E1FCAFE00F4924C8EA9B350B /* Pods */,
+				0FCD48C7E59D2D7DB108E504 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -58,6 +81,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		E1FCAFE00F4924C8EA9B350B /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				3BC07A0973AEB5122E652C35 /* Pods-squad-generator-xib.debug.xcconfig */,
+				B13A596871639BF1B56C5391 /* Pods-squad-generator-xib.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -65,9 +97,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 56E52CE92E950DCA009F0996 /* Build configuration list for PBXNativeTarget "squad-generator-xib" */;
 			buildPhases = (
+				2E10FCAC6B93E5297AA640EB /* [CP] Check Pods Manifest.lock */,
 				56E52CD22E950DCA009F0996 /* Sources */,
 				56E52CD32E950DCA009F0996 /* Frameworks */,
 				56E52CD42E950DCA009F0996 /* Resources */,
+				AF746B24D639400E9B1BB560 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -77,8 +111,6 @@
 				56E52CD82E950DCA009F0996 /* squad-generator-xib */,
 			);
 			name = "squad-generator-xib";
-			packageProductDependencies = (
-			);
 			productName = "squad-generator-xib";
 			productReference = 56E52CD62E950DCA009F0996 /* squad-generator-xib.app */;
 			productType = "com.apple.product-type.application";
@@ -127,6 +159,52 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		2E10FCAC6B93E5297AA640EB /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-squad-generator-xib-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AF746B24D639400E9B1BB560 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-squad-generator-xib/Pods-squad-generator-xib-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-squad-generator-xib/Pods-squad-generator-xib-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-squad-generator-xib/Pods-squad-generator-xib-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		56E52CD22E950DCA009F0996 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -140,12 +218,14 @@
 /* Begin XCBuildConfiguration section */
 		56E52CEA2E950DCA009F0996 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3BC07A0973AEB5122E652C35 /* Pods-squad-generator-xib.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = CU98C9NV2C;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "squad-generator-xib/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -171,12 +251,14 @@
 		};
 		56E52CEB2E950DCA009F0996 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B13A596871639BF1B56C5391 /* Pods-squad-generator-xib.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = CU98C9NV2C;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "squad-generator-xib/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

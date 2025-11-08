@@ -50,6 +50,12 @@ final class RootTabBarController: UITabBarController {
                                          selectedImage: UIImage(systemName: "books.vertical.fill"))
         controllers.append(library)
         #endif
+        
+        let profile = UINavigationController(rootViewController: ProfileVC())
+        profile.tabBarItem = UITabBarItem(title: "Profile",
+                                         image: UIImage(systemName: "person.circle"),
+                                         selectedImage: UIImage(systemName: "person.circle.fill"))
+        controllers.append(profile)
 
         viewControllers = controllers
 
